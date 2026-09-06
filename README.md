@@ -26,8 +26,29 @@ Open `bootstrap/providers.php` and add the following line under the `providers` 
 ```php
 Webkul\Zarinpal\Providers\ZarinpalServiceProvider::class,
 ```
+### 3️⃣ Register Your Package
 
-### 3️⃣ Add Callback Url
+open 'bootstrap/app.php' and add this after `<?php`:
+
+```php
+spl_autoload_register(function ($class) {
+    $prefix = 'Webkul\\Zarinpal\\';
+    $baseDir = __DIR__ . '/../packages/Webkul/Zarinpal/src/';
+
+    if (strncmp($class, $prefix, strlen($prefix)) !== 0) {
+        return;
+    }
+
+    $relativeClass = substr($class, strlen($prefix));
+    $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+
+    if (file_exists($file)) {
+        require_once $file;
+    }
+});
+```
+
+### 4️⃣ Add Callback Url
 
 Edit `Webkul/Zarinpal/src/Config/paymentmethods.php` and add your domain:
 
@@ -36,7 +57,7 @@ Edit `Webkul/Zarinpal/src/Config/paymentmethods.php` and add your domain:
 'callback_url'      => 'https://YOUR-DOMANE.com/zarinpal/callback',
 ```
 
-### 4️⃣ Run Migrations
+### 5️⃣ Run Migrations
 
 Run the following command to update the database schema:
 
@@ -44,7 +65,7 @@ Run the following command to update the database schema:
 php artisan migrate
 ```
 
-### 5️⃣ Clear Config Cache
+### 6️⃣ Clear Config Cache
 
 Clear the configuration cache to apply the changes:
 
@@ -52,7 +73,7 @@ Clear the configuration cache to apply the changes:
 php artisan optimize:clear
 ```
 
-### 6️⃣ Configure Zarinpal
+### 7️⃣ Configure Zarinpal
 
 Go to **Admin Panel** → **Configuration** → **Sales** → **Payment Methods** and configure your **Zarinpal** settings.
 
