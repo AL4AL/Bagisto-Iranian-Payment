@@ -21,7 +21,7 @@ packages/Webkul/Zarinpal
 
 ### 2️⃣ Register the Package
 
-Open `config/app.php` and add the following line under the `providers` array:
+Open `bootstrap/providers.php` and add the following line under the `providers` array:
 
 ```php
 Webkul\Zarinpal\Providers\ZarinpalServiceProvider::class,
@@ -29,7 +29,7 @@ Webkul\Zarinpal\Providers\ZarinpalServiceProvider::class,
 
 ### 3️⃣ Add Callback Url
 
-Edit `Webkul/Admin/src/Config/paymentmethods.php` and add your domain:
+Edit `Webkul/Zarinpal/src/Config/paymentmethods.php` and add your domain:
 
 
 ```php
