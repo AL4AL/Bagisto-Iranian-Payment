@@ -3,6 +3,7 @@
 namespace Webkul\Zarinpal\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Http\Controllers\Controller;
 
 class ZarinpalServiceProvider extends ServiceProvider
 {
@@ -30,9 +31,14 @@ class ZarinpalServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
-        $this->registerConfig();
-    }
+{
+    $this->registerConfig();
+
+    $this->mergeConfigFrom(
+        dirname(__DIR__) . '/Config/system.php',
+        'core'
+    );
+}
 
     /**
      * Register package config.
@@ -40,9 +46,14 @@ class ZarinpalServiceProvider extends ServiceProvider
      * @return void
      */
     protected function registerConfig()
-    {
-        $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/paymentmethods.php', 'payment_methods'
-        );
-    }
+{
+    $config = require dirname(__DIR__) . '/Config/payment-methods.php';
+
+    config([
+        'payment_methods' => array_merge(
+            config('payment_methods', []),
+            $config
+        ),
+    ]);
+}
 }

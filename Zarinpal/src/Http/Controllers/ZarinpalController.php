@@ -114,7 +114,7 @@ class ZarinpalController extends Controller
         $userEmail                   = $cart->shipping_address->email;
         $sendDataForGetAuthorityCode = [
              "merchant_id"  => $this->merchantId,
-             "amount"       => $cart->base_grand_total * 10,
+             "amount"       => (int) round($cart->base_grand_total * 10),
              "callback_url" => $this->callbackUrl,
              "description"  => self::DESCRIPTION_CONTENT . $userEmail,
              "referer_id"   => self::REFERER_ID,
@@ -180,7 +180,7 @@ class ZarinpalController extends Controller
                         'fee_type'       => $verifyTransaction['data']['fee_type'],
                         'fee'            => $verifyTransaction['data']['fee'],
                         'order_id'       => $order->id,
-                        'amount'         => $cart->base_grand_total * 10,
+                        'amount'         => (int) round($cart->base_grand_total * 10),
                         'status'         => 'success',
                     ];
                     $this->zarinpalRepository->create($params);
@@ -221,7 +221,7 @@ class ZarinpalController extends Controller
 
         $sendDataForVerify = [
             "merchant_id" => $this->merchantId,
-            "amount"      => $cart->base_grand_total * 10,
+            "amount"      => (int) round($cart->base_grand_total * 10),
             "authority"   => $authorityCode,
         ];
 
@@ -252,7 +252,7 @@ class ZarinpalController extends Controller
     {
         $userEmail     = $cart->shipping_address->email;
         $description   = self::DESCRIPTION_CONTENT . $userEmail;
-        $amount        = $cart->base_grand_total * 10;
+        $amount        = (int) round($cart->base_grand_total * 10);
         $getHashedData = Session::get($userEmail);
         $wanted        = sha1($amount . $description . date('H'));
         //Session::forget($userEmail);
